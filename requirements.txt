@@ -3,3 +3,7 @@ flask-socketio
 python-socketio
 eventlet
 gunicorn
+werkzeug
+jinja2
+itsdangerous
+click
