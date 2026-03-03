@@ -2,8 +2,8 @@ from http.server import BaseHTTPRequestHandler
 import json
 import time
 
+# Global storage
 assignments = {}
-colabs = {}
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -11,11 +11,14 @@ class handler(BaseHTTPRequestHandler):
         path = self.path
         colab_id = path.split('/')[-1]
         
-        pending = []
-        if colab_id in assignments:
-            pending = assignments[colab_id]
-            assignments[colab_id] = []  # Clear after sending
+        # Get pending assignments
+        pending = assignments.get(colab_id, [])
         
+        # Clear after sending
+        if colab_id in assignments:
+            del assignments[colab_id]
+        
+        # Send response
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.send_header('Access-Control-Allow-Origin', '*')
